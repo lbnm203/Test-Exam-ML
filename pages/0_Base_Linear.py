@@ -7,6 +7,9 @@ def main():
     st.title("Base Linear Regression")
     st.write("---")
 
+    # Initialize df as None
+    df = None
+    
     upload_file = st.file_uploader("Upload a file", type=["csv"])
     
     tab, preprocess = st.tabs(["Data", "Preprocess"])
@@ -16,14 +19,16 @@ def main():
             df = read_data(upload_file)
             if df is not None:
                 st.write("✅ Dataframe loaded successfully")
-            visualize_data(df) # visualize data with streamlit
-
+                visualize_data(df) # visualize data with streamlit
         else:
             st.write("Please upload a file")
 
     with preprocess:
-        st.write("Preprocess data")
-        preprocess_data(df)
+        if df is not None:
+            st.write("Preprocess data")
+            preprocess_data(df)
+        else:
+            st.warning("Please upload a file in the Data tab first")
 
 if __name__ == "__main__":
     main()
